@@ -3,15 +3,18 @@ import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import api from '../api';
 import { toast } from 'react-toastify';
+import { ArrowRight, Leaf } from 'lucide-react';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         try {
             const res = await api.post('/auth/login', { email, password });
             login(res.data.token, res.data.id, res.data.role);
@@ -23,34 +26,92 @@ const Login = () => {
             else navigate('/');
         } catch (error) {
             toast.error(error.response?.data?.message || 'Login failed. Please check credentials.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
-                <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+        <div className="min-h-screen flex font-sans bg-warmbeige">
+            {/* Left Panel - Brand Branding */}
+            <div className="hidden lg:flex lg:w-1/2 bg-terracotta flex-col justify-center px-16 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-full opacity-10" 
+                     style={{ backgroundImage: 'radial-gradient(circle at 20% 30%, white 2px, transparent 2px)', backgroundSize: '40px 40px' }}>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                    <div className="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <input type="email" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm" placeholder="Email address" value={email} onChange={e => setEmail(e.target.value)} />
-                        </div>
-                        <div>
-                            <input type="password" required className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
-                        </div>
+                
+                <div className="relative z-10 text-white max-w-xl">
+                    <Link to="/" className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-12 transition">
+                        <ArrowRight className="rotate-180" size={20} /> Back to Home
+                    </Link>
+                    
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-8">
+                        <Leaf size={32} className="text-white" />
                     </div>
+                    
+                    <h1 className="text-5xl font-serif font-bold leading-tight mb-6">
+                        Welcome back to the movement.
+                    </h1>
+                    <p className="text-sand text-xl leading-relaxed">
+                        Sign in to continue making a difference. Every meal shared brings us one step closer to a zero-waste world.
+                    </p>
+                </div>
+            </div>
 
-                    <div>
-                        <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition duration-150">
-                            Sign In
-                        </button>
+            {/* Right Panel - Form */}
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-16">
+                <div className="w-full max-w-md">
+                    <div className="lg:hidden mb-10 text-center">
+                        <Link to="/" className="text-3xl font-serif font-bold text-terracotta flex items-center justify-center gap-2">
+                            ShareBite <span className="text-2xl">🌾</span>
+                        </Link>
                     </div>
-                </form>
-                <div className="text-center mt-4">
-                    <span className="text-gray-600 text-sm">Don't have an account? </span>
-                    <Link to="/register" className="font-medium text-emerald-600 hover:text-emerald-500">Register here</Link>
+                    
+                    <div className="card p-8 sm:p-10">
+                        <h2 className="text-3xl font-serif font-bold text-brown mb-2">Sign In</h2>
+                        <p className="text-gray-500 mb-8">Enter your credentials to access your account.</p>
+
+                        <form className="space-y-6" onSubmit={handleSubmit}>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1 ml-1">Email Address</label>
+                                    <input 
+                                        type="email" 
+                                        required 
+                                        className="input-field" 
+                                        placeholder="you@example.com" 
+                                        value={email} 
+                                        onChange={e => setEmail(e.target.value)} 
+                                    />
+                                </div>
+                                <div>
+                                    <div className="flex items-center justify-between mb-1 ml-1">
+                                        <label className="block text-sm font-medium text-gray-700">Password</label>
+                                    </div>
+                                    <input 
+                                        type="password" 
+                                        required 
+                                        className="input-field" 
+                                        placeholder="••••••••" 
+                                        value={password} 
+                                        onChange={e => setPassword(e.target.value)} 
+                                    />
+                                </div>
+                            </div>
+
+                            <button 
+                                type="submit" 
+                                disabled={isLoading}
+                                className="btn-primary w-full py-3 flex justify-center items-center gap-2 text-lg mt-8"
+                            >
+                                {isLoading ? 'Signing In...' : 'Sign In'} <ArrowRight size={20} />
+                            </button>
+                        </form>
+                        
+                        <div className="mt-8 text-center">
+                            <span className="text-gray-500">Don't have an account? </span>
+                            <Link to="/register" className="font-semibold text-terracotta hover:text-terracotta-dark transition">Create one</Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

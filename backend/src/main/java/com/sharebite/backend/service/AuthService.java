@@ -36,7 +36,7 @@ public class AuthService {
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
+        user.setRole(com.sharebite.backend.enums.Role.valueOf(request.getRole().toUpperCase()));
         user.setPhone(request.getPhone());
         user.setAddress(request.getAddress());
 

@@ -1,109 +1,172 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Heart, Users, MapPin, TrendingUp, ArrowRight, ShieldCheck, Clock, Recycle } from 'lucide-react';
+
+const StatCounter = ({ end, label, icon: Icon }) => {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        let start = 0;
+        const duration = 2000;
+        const increment = end / (duration / 16);
+        const timer = setInterval(() => {
+            start += increment;
+            if (start > end) {
+                setCount(end);
+                clearInterval(timer);
+            } else {
+                setCount(Math.floor(start));
+            }
+        }, 16);
+        return () => clearInterval(timer);
+    }, [end]);
+
+    return (
+        <div className="flex flex-col items-center p-6 bg-white rounded-2xl shadow-sm border border-[#D4C4B0] transform transition duration-500 hover:-translate-y-2 hover:shadow-md">
+            <div className="p-4 bg-terracotta/10 rounded-full mb-4 text-terracotta">
+                <Icon size={32} />
+            </div>
+            <h3 className="text-4xl font-serif font-bold text-brown mb-2">{count.toLocaleString()}+</h3>
+            <p className="text-gray-500 font-medium">{label}</p>
+        </div>
+    );
+};
 
 const LandingPage = () => {
     return (
-        <div className="bg-[#00A86B] min-h-[calc(100vh-5rem)] flex items-center font-sans overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                <div className="flex flex-col lg:flex-row items-center justify-between">
-                    
-                    {/* Left Content */}
-                    <div className="lg:w-1/2 pt-12 pb-24 lg:pt-0 lg:pb-0 z-10 text-white">
-                        <div className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/30 mb-6">
-                            <span className="text-sm font-semibold tracking-wide text-white">🔥 surplus food rescue</span>
-                        </div>
-                        
-                        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight mb-6">
-                            Don't throw,<br />
-                            <span className="text-white">Send it to us.</span>
-                        </h1>
-                        
-                        <p className="text-emerald-50 text-lg sm:text-xl mb-10 max-w-lg leading-relaxed font-medium opacity-90">
-                            Connect your surplus food with those who need it most. Join our ecosystem of donors, NGOs, and volunteers creating a zero-waste community.
-                        </p>
-                        
-                        <div className="flex items-center space-x-4">
-                            <Link to="/register" className="bg-[#E8943A] text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-[#d68532] hover:shadow-xl transition transform hover:-translate-y-1">
-                                Get Started
-                            </Link>
-                        </div>
-                    </div>
-
-                    {/* Right Content - Isometric Illustration */}
-                    <div className="lg:w-1/2 relative w-full h-[400px] sm:h-[500px] lg:h-[700px] flex justify-end items-center">
-                        {/* Decorative Background Blob/Glow */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] lg:w-[500px] lg:h-[500px] bg-emerald-400/30 rounded-full blur-[100px]"></div>
-                        
-                        {/* Custom Isometric SVG Layout */}
-                        <div className="relative w-full h-full max-w-[700px] lg:mr-[-15%] drop-shadow-2xl flex justify-center items-center">
-                            <svg viewBox="0 0 800 600" className="w-full h-full" xmlns="http://www.w3.org/2001/XMLSchema-instance">
-                                {/* Base Platform */}
-                                <g transform="translate(400, 350) scale(1.6)">
-                                    {/* Floor */}
-                                    <path d="M 0 0 L 160 -80 L 0 -160 L -160 -80 Z" fill="#008a57" />
-                                    <path d="M -160 -80 L 0 0 L 0 20 L -160 -60 Z" fill="#006b43" />
-                                    <path d="M 160 -80 L 0 0 L 0 20 L 160 -60 Z" fill="#005233" />
-                                    
-                                    {/* Main Market Stall */}
-                                    <path d="M -60 -80 L 60 -140 L 0 -170 L -120 -110 Z" fill="#ffffff" />
-                                    <path d="M -120 -110 L -60 -80 L -60 -20 L -120 -50 Z" fill="#e5e7eb" />
-                                    <path d="M 60 -140 L -60 -80 L -60 -20 L 60 -80 Z" fill="#d1d5db" />
-                                    
-                                    {/* Orange Awning/Roof */}
-                                    <path d="M -70 -140 L 50 -200 L -10 -230 L -130 -170 Z" fill="#E8943A" />
-                                    <path d="M -130 -170 L -70 -140 L -70 -130 L -130 -160 Z" fill="#c2772b" />
-                                    <path d="M 50 -200 L -70 -140 L -70 -130 L 50 -190 Z" fill="#a66524" />
-
-                                    {/* Vendor Counter */}
-                                    <path d="M -40 -70 L 40 -110 L 10 -125 L -70 -85 Z" fill="#E8943A" />
-                                    <path d="M -70 -85 L -40 -70 L -40 -40 L -70 -55 Z" fill="#c2772b" />
-                                    <path d="M 40 -110 L -40 -70 L -40 -40 L 40 -80 Z" fill="#a66524" />
-
-                                    {/* Chef Isometric Character */}
-                                    <g transform="translate(0, -95)">
-                                        <path d="M 0 0 L 12 -6 L 0 -12 L -12 -6 Z" fill="#ffffff" />
-                                        <path d="M -12 -6 L 0 0 L 0 25 L -12 19 Z" fill="#f3f4f6" />
-                                        <path d="M 12 -6 L 0 0 L 0 25 L 12 19 Z" fill="#e5e7eb" />
-                                        <path d="M 0 -25 L 10 -30 L 0 -35 L -10 -30 Z" fill="#ffffff" />
-                                        <path d="M -10 -30 L 0 -25 L 0 -12 L -10 -17 Z" fill="#e5e7eb" />
-                                        <path d="M 10 -30 L 0 -25 L 0 -12 L 10 -17 Z" fill="#d1d5db" />
-                                    </g>
-
-                                    {/* Food Boxes/Crates */}
-                                    <g transform="translate(-90, -40)">
-                                        <path d="M 0 0 L 25 -12.5 L 0 -25 L -25 -12.5 Z" fill="#FCD34D" />
-                                        <path d="M -25 -12.5 L 0 0 L 0 20 L -25 7.5 Z" fill="#FBBF24" />
-                                        <path d="M 25 -12.5 L 0 0 L 0 20 L 25 7.5 Z" fill="#F59E0B" />
-                                    </g>
-                                    <g transform="translate(-50, -20)">
-                                        <path d="M 0 0 L 25 -12.5 L 0 -25 L -25 -12.5 Z" fill="#10B981" />
-                                        <path d="M -25 -12.5 L 0 0 L 0 20 L -25 7.5 Z" fill="#059669" />
-                                        <path d="M 25 -12.5 L 0 0 L 0 20 L 25 7.5 Z" fill="#047857" />
-                                    </g>
-
-                                    {/* Customer / NGO Person */}
-                                    <g transform="translate(-30, -30)">
-                                        <path d="M 0 0 L 10 -5 L 0 -10 L -10 -5 Z" fill="#E8943A" />
-                                        <path d="M -10 -5 L 0 0 L 0 25 L -10 20 Z" fill="#c2772b" />
-                                        <path d="M 10 -5 L 0 0 L 0 25 L 10 20 Z" fill="#a66524" />
-                                        <path d="M 0 -20 L 7 -23 L 0 -27 L -7 -23 Z" fill="#FCA5A5" />
-                                        <path d="M -7 -23 L 0 -20 L 0 -10 L -7 -13 Z" fill="#F87171" />
-                                        <path d="M 7 -23 L 0 -20 L 0 -10 L 7 -13 Z" fill="#EF4444" />
-                                    </g>
-                                    
-                                    {/* Decorative Plants */}
-                                    <g transform="translate(90, -50)">
-                                        <path d="M 0 0 L 15 -7.5 L 0 -15 L -15 -7.5 Z" fill="#ffffff" />
-                                        <path d="M -15 -7.5 L 0 0 L 0 15 L -15 7.5 Z" fill="#e5e7eb" />
-                                        <path d="M 15 -7.5 L 0 0 L 0 15 L 15 7.5 Z" fill="#d1d5db" />
-                                        <path d="M 0 -15 C -20 -30, -10 -40, 0 -50 C 10 -40, 20 -30, 0 -15" fill="#4ade80" />
-                                    </g>
-                                </g>
-                            </svg>
-                        </div>
+        <div className="font-sans min-h-screen bg-warmbeige flex flex-col">
+            
+            {/* Hero Section */}
+            <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-sand">
+                <div className="absolute inset-0 bg-gradient-to-br from-sand to-warmbeige z-0"></div>
+                <div className="absolute top-0 right-0 -mt-20 -mr-20 w-[500px] h-[500px] bg-terracotta/20 rounded-full blur-[100px] opacity-60 pointer-events-none"></div>
+                <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-[400px] h-[400px] bg-brown/10 rounded-full blur-[80px] opacity-60 pointer-events-none"></div>
+                
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center animate-fade-in-up">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-terracotta/10 text-terracotta font-semibold text-sm mb-8">
+                        <span className="w-2 h-2 rounded-full bg-terracotta animate-pulse"></span>
+                        Join the Zero Waste Movement
                     </div>
                     
+                    <h1 className="text-5xl md:text-7xl font-serif font-black text-brown tracking-tight mb-8 leading-tight">
+                        Don't Throw. <br className="hidden md:block" />
+                        <span className="text-terracotta">Share the Bite.</span>
+                    </h1>
+                    
+                    <p className="max-w-2xl mx-auto text-xl text-gray-700 mb-10 leading-relaxed">
+                        Connect surplus food with those who need it most. Join our ecosystem of donors, NGOs, and volunteers making a real difference in your community.
+                    </p>
+                    
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <Link to="/register" className="btn-primary w-full sm:w-auto text-lg px-8 py-4 flex items-center justify-center gap-2">
+                            Start Sharing <ArrowRight size={20} />
+                        </Link>
+                        <Link to="/listings" className="btn-secondary w-full sm:w-auto text-lg px-8 py-4 bg-white">
+                            Browse Food
+                        </Link>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            {/* Stats Section */}
+            <section className="py-20 bg-warmbeige">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 -mt-32 relative z-20">
+                        <StatCounter end={12500} label="Meals Saved" icon={Heart} />
+                        <StatCounter end={340} label="Active Donors" icon={Users} />
+                        <StatCounter end={150} label="Partner NGOs" icon={ShieldCheck} />
+                        <StatCounter end={45} label="Cities Covered" icon={MapPin} />
+                    </div>
+                </div>
+            </section>
+
+            {/* How It Works */}
+            <section className="py-24 bg-warmbeige">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-serif font-bold text-brown mb-4">How It Works</h2>
+                        <p className="text-gray-600 text-lg max-w-2xl mx-auto">Three simple steps to make a huge impact on food waste and hunger in your community.</p>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-3 gap-12 relative">
+                        {/* Connecting Line (Desktop) */}
+                        <div className="hidden md:block absolute top-1/2 left-[10%] right-[10%] h-0.5 bg-sand -z-10"></div>
+                        
+                        <div className="card p-8 text-center bg-white z-10">
+                            <div className="w-16 h-16 mx-auto bg-terracotta/10 text-terracotta rounded-full flex items-center justify-center text-2xl font-bold mb-6">1</div>
+                            <div className="mx-auto w-20 h-20 bg-sand text-brown rounded-full flex items-center justify-center mb-6">
+                                <Clock size={40} />
+                            </div>
+                            <h3 className="text-2xl font-serif font-bold text-brown mb-4">Post Surplus</h3>
+                            <p className="text-gray-600">Restaurants and individuals list their fresh, excess food that would otherwise go to waste.</p>
+                        </div>
+
+                        <div className="card p-8 text-center bg-white z-10">
+                            <div className="w-16 h-16 mx-auto bg-terracotta/10 text-terracotta rounded-full flex items-center justify-center text-2xl font-bold mb-6">2</div>
+                            <div className="mx-auto w-20 h-20 bg-sand text-brown rounded-full flex items-center justify-center mb-6">
+                                <ShieldCheck size={40} />
+                            </div>
+                            <h3 className="text-2xl font-serif font-bold text-brown mb-4">NGOs Claim</h3>
+                            <p className="text-gray-600">Verified NGOs and charities get notified immediately and claim the food they need.</p>
+                        </div>
+
+                        <div className="card p-8 text-center bg-white z-10">
+                            <div className="w-16 h-16 mx-auto bg-terracotta/10 text-terracotta rounded-full flex items-center justify-center text-2xl font-bold mb-6">3</div>
+                            <div className="mx-auto w-20 h-20 bg-sand text-brown rounded-full flex items-center justify-center mb-6">
+                                <Recycle size={40} />
+                            </div>
+                            <h3 className="text-2xl font-serif font-bold text-brown mb-4">Zero Waste</h3>
+                            <p className="text-gray-600">Food is distributed to those in need, reducing environmental impact and fighting hunger.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* CTA Banner */}
+            <section className="py-24 bg-terracotta relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/10 rounded-full blur-[80px] -mr-40 -mt-40"></div>
+                <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
+                    <h2 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6">Ready to make a difference?</h2>
+                    <p className="text-sand text-xl mb-10">Join thousands of others who are actively reducing food waste every single day.</p>
+                    <Link to="/register" className="btn-secondary bg-white text-terracotta border-none text-lg px-10 py-4 inline-block hover:scale-105">
+                        Create Your Account
+                    </Link>
+                </div>
+            </section>
+
+            {/* Footer */}
+            <footer className="bg-brown text-sand py-12 mt-auto">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-col md:flex-row justify-between items-center">
+                        <div className="mb-6 md:mb-0">
+                            <Link to="/" className="text-3xl font-serif font-bold tracking-tight text-white hover:text-terracotta transition flex items-center gap-2">
+                                ShareBite <span className="text-2xl">🌾</span>
+                            </Link>
+                            <p className="text-sand/80 mt-2">Nourishing communities, together.</p>
+                        </div>
+                        <div className="flex gap-6">
+                            <Link to="/about" className="hover:text-terracotta transition">About</Link>
+                            <Link to="/contact" className="hover:text-terracotta transition">Contact</Link>
+                            <Link to="/privacy" className="hover:text-terracotta transition">Privacy</Link>
+                            <Link to="/terms" className="hover:text-terracotta transition">Terms</Link>
+                        </div>
+                    </div>
+                    <div className="border-t border-sand/20 mt-8 pt-8 text-center text-sand/60 text-sm">
+                        &copy; {new Date().getFullYear()} ShareBite. All rights reserved.
+                    </div>
+                </div>
+            </footer>
+
+            {/* Add simple animation CSS dynamically */}
+            <style dangerouslySetInnerHTML={{__html: `
+                @keyframes fadeInUp {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .animate-fade-in-up {
+                    animation: fadeInUp 0.8s ease-out forwards;
+                }
+            `}} />
         </div>
     );
 };
