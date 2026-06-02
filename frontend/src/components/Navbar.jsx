@@ -28,22 +28,22 @@ const Navbar = () => {
     };
 
     return (
-        <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'glass text-brown' : 'bg-warmbeige text-brown'}`}>
+        <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-brown/90 backdrop-blur-md text-sand' : 'bg-brown text-sand'}`}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-20 items-center">
-                    
+
                     {/* Left - Logo */}
                     <div className="flex items-center flex-1">
-                        <Link to="/" className={`text-3xl font-serif font-bold tracking-tight text-brown hover:text-terracotta flex items-center gap-2`}>
+                        <Link to="/" className={`text-3xl font-serif font-bold tracking-tight text-sand hover:text-terracotta flex items-center gap-2`}>
                             ShareBite <span className="text-2xl">🌾</span>
                         </Link>
                     </div>
-                    
+
                     {/* Center - Nav Links */}
                     <div className="hidden md:flex items-center justify-center flex-1 space-x-8 font-medium">
-                        <Link to="/" className={`hover:text-terracotta transition text-brown`}>Home</Link>
-                        <Link to="/listings" className={`hover:text-terracotta transition text-brown`}>Browse Food</Link>
-                        <Link to="/about" className={`hover:text-terracotta transition text-brown`}>About</Link>
+                        <Link to="/" className={`hover:text-terracotta transition text-sand`}>Home</Link>
+                        <Link to="/listings" className={`hover:text-terracotta transition text-sand`}>Browse Food</Link>
+                        <Link to="/about" className={`hover:text-terracotta transition text-sand`}>About</Link>
                     </div>
 
                     {/* Right - Auth / Contact Button */}
@@ -79,11 +79,11 @@ const Navbar = () => {
 
             {/* Mobile Menu Drawer */}
             {isMenuOpen && (
-                <div className="md:hidden bg-warmbeige shadow-xl absolute top-20 left-0 w-full text-brown border-t border-[#D4C4B0] flex flex-col px-4 py-6 space-y-4">
+                <div className="md:hidden bg-brown shadow-xl absolute top-20 left-0 w-full text-sand border-t border-border flex flex-col px-4 py-6 space-y-4">
                     <Link to="/" onClick={() => setIsMenuOpen(false)} className="block font-medium hover:text-terracotta">Home</Link>
                     <Link to="/listings" onClick={() => setIsMenuOpen(false)} className="block font-medium hover:text-terracotta">Browse Food</Link>
                     <Link to="/about" onClick={() => setIsMenuOpen(false)} className="block font-medium hover:text-terracotta">About</Link>
-                    
+
                     <div className="border-t border-[#D4C4B0] pt-4 mt-2 space-y-4">
                         {user ? (
                             <>

@@ -22,7 +22,7 @@ const AdminDashboard = () => {
     return (
         <div className="min-h-screen bg-warmbeige flex font-sans pt-20">
             {/* Sidebar */}
-            <aside className="w-64 bg-brown border-r border-[#D4C4B0] hidden md:flex flex-col fixed h-[calc(100vh-5rem)]">
+            <aside className="w-64 bg-brown border-r border-border hidden md:flex flex-col fixed h-[calc(100vh-5rem)]">
                 <div className="p-6 border-b border-[#D4C4B0]/20">
                     <h2 className="text-xl font-serif font-bold text-white flex items-center gap-2">
                         <ShieldCheck size={24} className="text-terracotta" /> Admin Portal
